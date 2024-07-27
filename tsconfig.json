@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "NodeNext",
+    "rootDir": "./src",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+
+      "@v1/*": ["api/v1/*"],
+
+      "@v1config/*": ["api/v1/config/*"],
+      "@v1logs/*": ["api/v1/logs/*"],
+
+      "@v1types/*": ["api/v1/types/*"],
+      "@v1utils/*": ["api/v1/utils/*"],
+      "@v1database/*": ["api/v1/database/*"],
+      "@v1routes/*": ["api/v1/routes/*"],
+      "@v1controllers/*": ["api/v1/controllers/*"],
+      "@v1middlewares/*": ["api/v1/middlewares/*"],
+      "@v1validators/*": ["api/v1/validators/*"],
+      "@v1services/*": ["api/v1/services/*"],
+      "@v1models/*": ["api/v1/models/*"],
+
+    },
+  }
+}
