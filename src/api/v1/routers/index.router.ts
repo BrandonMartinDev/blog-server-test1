@@ -17,6 +17,7 @@ import express from 'express';
 // Routers
 
 import SignupRouter from '@v1routers/signup.router';
+import UserRouter from '@v1routers/user.router';
 
 
 // Services
@@ -34,6 +35,7 @@ const MainRouter = express.Router();
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
 
 MainRouter.use('/signup', SignupRouter);
+MainRouter.use('/user', UserRouter);
 
 
 

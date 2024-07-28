@@ -7,12 +7,13 @@ import { UserModel } from "@v1models/user.model";
 
 // -- == [[ SERVICE METHODS ]] == -- \\
 
+async function GetUserByID(id: string) {
+    return await UserModel.findById(id);
+}
+
+
 async function GetUserByName(username: string) {
-
-    const user = await UserModel.findOne({ username: username.toLowerCase() });
-
-    return user;
-
+    return await UserModel.findOne({ username: username.toLowerCase() });
 }
 
 
@@ -38,6 +39,7 @@ async function CreateUser(username: string, password: string) {
 
 export {
 
+    GetUserByID,
     GetUserByName,
     CreateUser
 
