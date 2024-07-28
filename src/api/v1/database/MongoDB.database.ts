@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 
 // Utils
 
-import { CatchErr } from "@v1utils/catchErr.utils";
+import { CatchErr } from "@v1/utils/CatchErr.utils";
 
 
 

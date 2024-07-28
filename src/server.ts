@@ -27,7 +27,7 @@ import express from 'express';
 
 // Utils
 
-import { CatchErr } from "@v1utils/catchErr.utils";
+import { CatchErr } from '@v1utils/CatchErr.utils';
 
 
 // Database
