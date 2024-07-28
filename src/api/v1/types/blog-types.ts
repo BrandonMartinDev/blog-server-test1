@@ -1,5 +1,8 @@
+// -- == [[ TYPES ]] == -- \\
+
 type Article = {
 
+    article_id: string;
     author: string;                     // UserID of the author
 
     createdAt: Date;                    // Date timestamp of when the article was created
@@ -9,12 +12,14 @@ type Article = {
 
 }
 
+
 type ArticleSection = {
 
     heading: string;                    // Heading of the article section (max 100 chars)
     textSections: TextSection[]         // The different text sections of the 
 
 }
+
 
 type TextSection = {
 
@@ -26,6 +31,10 @@ type TextSection = {
     }
 
 }
+
+
+
+// -- == [[ EXPORTS ]] == -- \\
 
 export {
 
