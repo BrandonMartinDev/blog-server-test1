@@ -25,6 +25,11 @@ import { PORT } from '@v1config/defaults';
 import express from 'express';
 
 
+// Middlewares
+
+import LoggerMiddleware from '@v1middlewares/logger.middleware';
+
+
 // Utils
 
 import { CatchErr } from '@v1utils/CatchErr.utils';
@@ -51,6 +56,7 @@ import { RespondToClient } from '@v1services/Response.service';
 const app = express();
 
 app.use(express.json());
+app.use(LoggerMiddleware);
 
 
 

@@ -1,6 +1,7 @@
 // SERVER INFO
 
 export const PORT: number = parseInt(process.env.PORT as string) || 4200;
+export const LOGS_DIR: string = "src/api/v1/logs";
 
 
 // DATABASE INFO
