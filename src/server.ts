@@ -25,6 +25,11 @@ import { PORT } from '@v1config/defaults';
 import express from 'express';
 
 
+// Routers
+
+import MainRouter from '@v1routers/index.router';
+
+
 // Services
 
 import { RespondToClient } from '@v1services/Response.service';
@@ -36,6 +41,12 @@ import { RespondToClient } from '@v1services/Response.service';
 const app = express();
 
 app.use(express.json());
+
+
+
+// -- == [[ INITIALIZE MAIN ROUTER ]] == -- \\
+
+app.use('/api/v1', MainRouter);
 
 
 

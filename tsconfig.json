@@ -22,7 +22,7 @@
       "@v1types/*": ["api/v1/types/*"],
       "@v1utils/*": ["api/v1/utils/*"],
       "@v1database/*": ["api/v1/database/*"],
-      "@v1routes/*": ["api/v1/routes/*"],
+      "@v1routers/*": ["api/v1/routers/*"],
       "@v1controllers/*": ["api/v1/controllers/*"],
       "@v1middlewares/*": ["api/v1/middlewares/*"],
       "@v1validators/*": ["api/v1/validators/*"],
