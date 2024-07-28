@@ -1,21 +1,25 @@
 // -- == [[ TYPES ]] == -- \\
 
+// Blog Article
+
 type Article = {
 
-    article_id: string;
-    author: string;                     // UserID of the author
+    _id: string;                        // Handled by MongoDB (BlogID)
 
+    author_id: string;                     // UserID of the author
     createdAt: Date;                    // Date timestamp of when the article was created
 
-    title: string;                      // Title of the blog article (max 100 chars)
+    title: string;                      // Title of the blog article (min 3 chars, max 100 chars)
     sections: ArticleSection[]          // The article sections of the blog article
+
+    comments: Comment[]                 // An array of comments on the blog
 
 }
 
 
 type ArticleSection = {
 
-    heading: string;                    // Heading of the article section (max 100 chars)
+    heading: string;                    // Heading of the article section (min 3 chars, max 100 chars)
     textSections: TextSection[]         // The different text sections of the 
 
 }
@@ -23,7 +27,7 @@ type ArticleSection = {
 
 type TextSection = {
 
-    body: string;                       // Body text of the text section (max 1500 chars)
+    body: string;                       // Body text of the text section (min 5 chars, max 1500 chars)
 
     image?: {                           // An image for the text section
         appearsBeforeText: boolean;     // Determines whether the image is shown before the text or after
