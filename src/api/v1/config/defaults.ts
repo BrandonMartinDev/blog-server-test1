@@ -26,6 +26,15 @@ export const RATE_LIMITS: any = {
     
     */
 
+    "default": {
+        
+        ALL: {
+            limit: 30,
+            removeAfter: 60
+        }
+        
+    },
+
     "/": {
 
         ALL: {
@@ -56,7 +65,16 @@ export const RATE_LIMITS: any = {
             removeAfter: 60
         }
 
-    }
+    },
+
+    "/api/v1/user/": {
+
+        GET: {
+            limit: 30,
+            removeAfter: 60
+        }
+
+    },
 
 }
 

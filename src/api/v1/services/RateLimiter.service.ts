@@ -56,7 +56,7 @@ function CheckRequestLimit(req: Request) {
         // Check if there is rate limit info on the endpoint
         // If not, then the function immediately fails the rate limit check
 
-        const RateLimitInfo = RATE_LIMITS[originalUrl] || RATE_LIMITS[`${originalUrl}/`];
+        const RateLimitInfo = RATE_LIMITS[originalUrl] || RATE_LIMITS[`${originalUrl}/`] || RATE_LIMITS.default;
         if (!RateLimitInfo) throw new Error("Could not find rate limit info");
 
 
@@ -99,7 +99,7 @@ function CheckRequestLimit(req: Request) {
 
             SERVER_RATE_LIMIT_CACHE[EntryString]--;
 
-            console.log(`Decremented ${EntryString} requests amount by 1`);            
+            console.log(`Decremented ${EntryString} requests amount by 1`);
 
         }, RequestRateLimitInfo.removeAfter * 1000);
 
