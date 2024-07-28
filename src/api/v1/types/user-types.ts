@@ -1,5 +1,15 @@
 // -- == [[ TYPES ]] == -- \\
 
+type UserPermissions = {
+
+    canPostBlog: boolean;
+    canLikeBlog: boolean;
+
+    canPostComments: boolean;
+    canLikeComments: boolean;
+
+}
+
 type User = {
 
     _id: string;                        // Handled by MongoDB (UserID) 
@@ -11,6 +21,7 @@ type User = {
 
     createdBlogArticles: string[];      // The BlogIDs the user has created
     createdComments: string[];          // The CommentIDs the user has created
+    permissions: UserPermissions;
 
 }
 

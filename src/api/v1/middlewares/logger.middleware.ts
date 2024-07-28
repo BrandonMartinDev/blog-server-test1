@@ -21,6 +21,8 @@ import { LOGS_DIR } from '@v1config/defaults.js';
 // Utils
 
 import { CatchErr } from '@v1utils/CatchErr.utils';
+import { CheckRequestLimit } from '@v1/services/RateLimiter.service';
+import { RespondToClient } from '@v1/services/Response.service';
 
 
 
@@ -50,7 +52,9 @@ fs.readdir(LOGS_DIR, (err, files) => {
 
 const LoggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    const logString = `${new Date().toISOString()} || ${req.ip} || ${req.method} || ${req.originalUrl}`
+    const rateLimitCheck = CheckRequestLimit(req);
+
+    const logString = `${new Date().toISOString()} || ${req.ip} || ${req.method} || ${req.originalUrl} || Rate Limit Check: ${rateLimitCheck}`
 
     const previousLogs = (() => {
         try {
@@ -63,6 +67,20 @@ const LoggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     fs.writeFileSync(currentLogFilePath, previousLogs + "\n" + logString, 'utf-8');
 
     console.log(logString);
+
+    if (!rateLimitCheck) {
+
+        RespondToClient(res, {
+            statusCode: 429,
+            responseJson: {
+                error: `You have reached the maximum number of requests for the endpoint: '${req.originalUrl}'`
+            }
+        });
+
+        return;
+
+    }
+
     next();
 
 }

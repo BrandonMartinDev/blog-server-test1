@@ -5,13 +5,37 @@
 import mongoose from "mongoose";
 
 
-// Schemas
-
-import { ArticleSchema } from "@v1models/blog.model";
-
-
 
 // -- == [[ SCHEMAS ]] == -- \\
+
+const UserPermissionsSchema = new mongoose.Schema({
+
+    canPostBlog: {
+        type: mongoose.SchemaTypes.Boolean,
+        default: false,
+        required: false
+    },
+
+    canLikeBlog: {
+        type: mongoose.SchemaTypes.Boolean,
+        default: true,
+        required: false
+    },
+
+    canPostComments: {
+        type: mongoose.SchemaTypes.Boolean,
+        default: true,
+        required: false
+    },
+
+    canLikeComments: {
+        type: mongoose.SchemaTypes.Boolean,
+        default: true,
+        required: false
+    },
+
+})
+
 
 const UserSchema = new mongoose.Schema({
 
@@ -38,6 +62,20 @@ const UserSchema = new mongoose.Schema({
     },
 
 
+    permissions: {
+
+        type: UserPermissionsSchema,
+
+        default: {
+            canPostBlog: false,
+            canLikeBlog: true,
+            canPostComments: true,
+            canLikeComments: true,
+        },
+
+        required: false,
+
+    },
 
     createdBlogArticles: {
         type: [mongoose.SchemaTypes.ObjectId],
@@ -54,7 +92,6 @@ const UserSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-
 
 
 

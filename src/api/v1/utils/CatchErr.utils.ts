@@ -3,11 +3,11 @@
 function CatchErr(err: unknown, prefix?: string) {
 
     if (err instanceof Error) {
-        console.log(`${prefix}: ${err.message}`);
+        console.log(`${prefix || "ERROR"}: ${err.message}`);
         return;
     }
 
-    console.log(`${prefix}: ${err}`);
+    console.log(`${prefix || "ERROR"}: ${err}`);
 
 }
 

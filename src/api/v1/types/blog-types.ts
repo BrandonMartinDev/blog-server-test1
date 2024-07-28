@@ -14,6 +14,8 @@ type Article = {
 
     comments: Comment[]                 // An array of comments on the blog
 
+    likedBy: string[]                   // An array of UserIDs that point to who liked the blog
+
 }
 
 

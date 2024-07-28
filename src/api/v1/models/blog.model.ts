@@ -86,6 +86,12 @@ const ArticleSchema = new mongoose.Schema({
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
         required: false
+    },
+
+    likedBy: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        default: [],
+        required: false
     }
 
 }, {

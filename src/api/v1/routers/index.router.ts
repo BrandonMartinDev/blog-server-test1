@@ -14,6 +14,11 @@ import {
 import express from 'express';
 
 
+// Routers
+
+import SignupRouter from '@v1routers/signup.router';
+
+
 // Services
 
 import { RespondToClient } from '@v1services/Response.service';
@@ -28,9 +33,16 @@ const MainRouter = express.Router();
 
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
 
+MainRouter.use('/signup', SignupRouter);
+
+
+
+
+// -- == [[ HANDLE CATCH-ALL ENDPOINTS ]] == -- \\
+
 MainRouter.route('/')
-    // GET /api/v1/
-    .get((req: Request, res: Response, next: NextFunction) => {
+    // ALL /api/v1/
+    .all((req: Request, res: Response, next: NextFunction) => {
 
         RespondToClient(res, {
             statusCode: 200,
@@ -40,6 +52,7 @@ MainRouter.route('/')
         });
 
     });
+
 
 
 // -- == [[ EXPORTS ]] == -- \\
