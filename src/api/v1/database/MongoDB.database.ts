@@ -10,6 +10,11 @@ import { MONGO_CONNECTION_STRING } from "@v1config/defaults";
 import mongoose from 'mongoose';
 
 
+// Utils
+
+import { CatchErr } from "@v1utils/catchErr.utils";
+
+
 
 // -- == [[ INITIALIZE DATABASE CONNECTION METHOD ]] == -- \\
 
@@ -24,14 +29,7 @@ async function ConnectToDB() {
         return connectedDB;
 
     } catch (err) {
-
-        if (err instanceof Error) {
-            console.log(`ERROR CONNECTING TO DATABASE: ${err.message}`);
-            return;      
-        }
-
-        console.log(`ERROR CONNECTING TO DATABASE: ${err}`);
-
+        CatchErr(err, "ERROR CONNECTING TO DATABASE");
     }
 
 }

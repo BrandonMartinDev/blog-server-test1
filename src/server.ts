@@ -25,6 +25,16 @@ import { PORT } from '@v1config/defaults';
 import express from 'express';
 
 
+// Utils
+
+import { CatchErr } from "@v1utils/catchErr.utils";
+
+
+// Database
+
+import { ConnectToDB } from "@v1database/MongoDB.database";
+
+
 // Routers
 
 import MainRouter from '@v1routers/index.router';
@@ -97,9 +107,19 @@ app.get('*', (req: Request, res: Response, next: NextFunction) => {
 
 async function StartServer() {
 
-    app.listen(PORT, () => {
-        console.log(`Server is ONLINE at PORT: ${PORT}`);
-    })
+    try {
+
+        const connectedDB = await ConnectToDB();
+
+        if (!connectedDB) throw new Error("There was an error connecting to database!");
+
+        app.listen(PORT, () => {
+            console.log(`Server is ONLINE at PORT: ${PORT}`);
+        });
+
+    } catch (err) {
+        CatchErr(err, "SERVER COULD NOT START");
+    }
 
 }
 
