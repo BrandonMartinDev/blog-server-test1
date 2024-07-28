@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server",
   "scripts": {
-    "dev": "tsx watch .",
-    "start": "tsx ."
+    "dev": "tsx watch src/server",
+    "start": "tsx src/server"
   },
   "author": "",
   "license": "ISC",
