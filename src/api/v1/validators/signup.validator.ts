@@ -103,7 +103,7 @@ async function PostSignupValidator(req: Request, res: Response, next: NextFuncti
 
         // Validate username is in the correct format
 
-        const usernameRegEx = new RegExp(/^[A-Za-z]{1}[A-Za-z0-9_]{1,21}[A-Za-z0-9]{1}$/, "g");
+        const usernameRegEx = new RegExp(/^[A-Za-z]{1}\w{1,21}[A-Za-z0-9]{1}$/, "g");
         const passedUsernameRegEx = usernameRegEx.test(username);
 
         if (!passedUsernameRegEx) {
