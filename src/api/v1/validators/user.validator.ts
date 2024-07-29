@@ -9,6 +9,11 @@ import {
 } from 'express';
 
 
+// Modules/Packages
+
+import mongoose from 'mongoose';
+
+
 // Utils
 
 import { CatchErr } from '@v1utils/CatchErr.utils'
@@ -27,7 +32,9 @@ async function GetUserValidator(req: Request, res: Response, next: NextFunction)
     try {
 
         const { id } = req.params;
+
         if (!id) {
+
             RespondToClient(res, {
 
                 statusCode: 400,
@@ -37,6 +44,23 @@ async function GetUserValidator(req: Request, res: Response, next: NextFunction)
                 }
 
             })
+
+        }
+
+        const validID = mongoose.isValidObjectId(id);
+
+        if (!validID) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: `id parameter provided, '${id}', is not a valid BSON object id!`
+                }
+
+            })
+
         }
 
         next();
