@@ -45,6 +45,8 @@ async function GetUserValidator(req: Request, res: Response, next: NextFunction)
 
             })
 
+            return;
+
         }
 
         const validID = mongoose.isValidObjectId(id);
@@ -60,6 +62,8 @@ async function GetUserValidator(req: Request, res: Response, next: NextFunction)
                 }
 
             })
+
+            return;
 
         }
 
