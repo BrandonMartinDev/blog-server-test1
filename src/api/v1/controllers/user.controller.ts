@@ -49,7 +49,8 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
 
         const sanitizedUser = {
 
-            name: user.displayName,
+            username: user.username,
+            displayName: user.displayName,
             createdBlogArticles: user.createdBlogArticles,
             createdComments: user.createdComments,
 
