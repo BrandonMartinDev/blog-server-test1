@@ -44,7 +44,7 @@ function CheckRequestLimit(req: Request) {
 
     try {
 
-        // Destructure ip, method, and originalUrl from the request object
+        // Destructure ip, method, and originalUrl from the request object       
 
         const { ip, method, originalUrl } = req;
 
@@ -53,10 +53,15 @@ function CheckRequestLimit(req: Request) {
         if (!originalUrl) throw new Error("There was an error getting the requester's originalUrl!");
 
 
+        // Initializes a variable which has the url params trimmed
+        const urlWithoutParams = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
+
+
         // Check if there is rate limit info on the endpoint
         // If not, then the function immediately fails the rate limit check
 
-        const RateLimitInfo = RATE_LIMITS[originalUrl] || RATE_LIMITS[`${originalUrl}/`] || RATE_LIMITS.default;
+        const RateLimitInfo = RATE_LIMITS[urlWithoutParams] || RATE_LIMITS[`${urlWithoutParams}/`] || RATE_LIMITS.default;
+
         if (!RateLimitInfo) throw new Error("Could not find rate limit info");
 
 
@@ -64,10 +69,10 @@ function CheckRequestLimit(req: Request) {
 
         let RequestRateLimitInfo: any;
 
-        if (RateLimitInfo.ALL) {
-            RequestRateLimitInfo = RateLimitInfo.ALL;
-        } else if (RateLimitInfo[method]) {
+        if (RateLimitInfo[method]) {
             RequestRateLimitInfo = RateLimitInfo[method];
+        } else if (RateLimitInfo.ALL) {
+            RequestRateLimitInfo = RateLimitInfo.ALL;
         }
 
 
@@ -76,7 +81,7 @@ function CheckRequestLimit(req: Request) {
 
 
         // Gets the EntryString that will be used to check the cache
-        const EntryString = (`${ip}-${method}-${originalUrl}`);
+        const EntryString = (`${ip}-${method}-${urlWithoutParams}`);
 
 
         // Checks if the cache already has requests stored for the exact EntryString
@@ -99,7 +104,7 @@ function CheckRequestLimit(req: Request) {
 
             SERVER_RATE_LIMIT_CACHE[EntryString]--;
 
-            console.log(`Decremented ${EntryString} requests amount by 1`);
+            console.log(`Decremented ${EntryString} requests amount by 1. New request amount: ${SERVER_RATE_LIMIT_CACHE[EntryString]}`);
 
         }, RequestRateLimitInfo.removeAfter * 1000);
 

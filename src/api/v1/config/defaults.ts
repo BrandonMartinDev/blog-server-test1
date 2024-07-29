@@ -27,12 +27,12 @@ export const RATE_LIMITS: any = {
     */
 
     "default": {
-        
+
         ALL: {
             limit: 30,
             removeAfter: 60
         }
-        
+
     },
 
     "/": {
@@ -61,7 +61,7 @@ export const RATE_LIMITS: any = {
         },
 
         POST: {
-            limit: 1,
+            limit: 2,
             removeAfter: 60
         }
 
