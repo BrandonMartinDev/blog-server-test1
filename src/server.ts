@@ -17,12 +17,18 @@ import {
 
 // Defaults
 
-import { PORT } from '@v1config/defaults';
+import {
+    PORT,
+    SESSION_OPTIONS,
+    CORS_OPTIONS
+} from '@v1config/defaults';
 
 
 // Modules/Packages
 
 import express from 'express';
+import cors from 'cors';
+import session from 'express-session';
 
 
 // Middlewares
@@ -56,6 +62,8 @@ import { RespondToClient } from '@v1services/Response.service';
 const app = express();
 
 app.use(express.json());
+app.use(cors(CORS_OPTIONS));
+app.use(session(SESSION_OPTIONS));
 app.use(LoggerMiddleware);
 
 

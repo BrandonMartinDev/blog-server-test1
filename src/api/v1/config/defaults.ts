@@ -1,6 +1,13 @@
 // SERVER INFO
 
 export const PORT: number = parseInt(process.env.PORT as string) || 4200;
+export const SERVER_URL: string = process.env.SERVER_URL as string || "http://localhost:3000/";
+
+export const CORS_OPTIONS = {
+    credentials: true,
+    origin: SERVER_URL
+};
+
 export const LOGS_DIR: string = "src/api/v1/logs";
 
 export const RATE_LIMITS: any = {
@@ -77,6 +84,27 @@ export const RATE_LIMITS: any = {
     },
 
 }
+
+
+// EXPRESS SESSION INFO
+
+export const COOKIE_SECRET: string = process.env.COOKIE_SECRET as string || "iSc7spjweRGJsQHPGc^%k0X-&h_mib_M9";
+
+export const SESSION_OPTIONS = {
+
+    secret: COOKIE_SECRET,
+
+    resave: false,
+    saveUninitialized: false,
+
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: false,
+        maxAge: (1000 * 60) * 60 * 60 * 24 * 7, // One week
+    }
+
+};
 
 
 // DATABASE INFO
