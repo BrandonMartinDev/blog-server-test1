@@ -39,6 +39,8 @@ const SignupRouter = express.Router();
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
 
 SignupRouter.route('/')
+    // POST /api/v1/signup
+    .post(PostSignupValidator, SignupUser)
     // GET /api/v1/signup
     .get((req: Request, res: Response, next: NextFunction) => {
 
@@ -50,8 +52,6 @@ SignupRouter.route('/')
         });
 
     })
-    // POST /api/v1/signup
-    .post(PostSignupValidator, SignupUser)
 
 
 
