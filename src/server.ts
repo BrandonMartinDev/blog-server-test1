@@ -63,7 +63,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors(CORS_OPTIONS));
-app.use(session(SESSION_OPTIONS));
+app.use(session(SESSION_OPTIONS as session.SessionOptions));
 app.use(LoggerMiddleware);
 
 
