@@ -18,6 +18,7 @@ import express from 'express';
 
 import SignupRouter from '@v1routers/signup.router';
 import LoginRouter from '@v1routers/login.router';
+import LogoutRouter from '@v1routers/logout.router';
 import UserRouter from '@v1routers/user.router';
 import BlogRouter from '@v1routers/blog.router';
 
@@ -38,6 +39,7 @@ const MainRouter = express.Router();
 
 MainRouter.use('/signup', SignupRouter);
 MainRouter.use('/login', LoginRouter);
+MainRouter.use('/logout', LogoutRouter);
 MainRouter.use('/user', UserRouter);
 MainRouter.use('/blog', BlogRouter);
 
