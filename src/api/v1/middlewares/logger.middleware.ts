@@ -52,9 +52,11 @@ fs.readdir(LOGS_DIR, (err, files) => {
 
 const LoggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
+    const loggedInUserID = req.session.loggedInUserID;    
+
     const rateLimitCheck = CheckRequestLimit(req);
 
-    const logString = `${new Date().toISOString()} || ${req.ip} || ${req.method} || ${req.originalUrl} || Rate Limit Check: ${rateLimitCheck}`
+    const logString = `${new Date().toISOString()} || ${req.ip} || ${loggedInUserID ? loggedInUserID : "GUEST"} || ${req.method} || ${req.originalUrl} || Rate Limit Check: ${rateLimitCheck}`
 
     const previousLogs = (() => {
         try {
