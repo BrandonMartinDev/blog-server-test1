@@ -18,11 +18,13 @@ import { CatchErr } from "@v1/utils/CatchErr.utils";
 
 // -- == [[ INITIALIZE DATABASE CONNECTION METHOD ]] == -- \\
 
+let connectedDB: mongoose.Mongoose;
+
 async function ConnectToDB() {
 
     try {
 
-        const connectedDB = await mongoose.connect(MONGO_CONNECTION_STRING);
+        connectedDB = await mongoose.connect(MONGO_CONNECTION_STRING);
 
         console.log("Connected to database successfully!");
 
@@ -34,10 +36,26 @@ async function ConnectToDB() {
 
 }
 
+async function DisconnectDB() {
+
+    console.log("Disconnecting database...");
+
+    if (connectedDB) {
+        await mongoose.connection.close();
+    }
+
+    console.log("Disconnected database successfully");
+
+}
+
+process.on('SIGINT', async () => await DisconnectDB());
+process.on('exit', async () => await DisconnectDB());
+process.on('beforeExit', async () => await DisconnectDB());
 
 
 // -- == [[ EXPORTS ]] == -- \\
 
 export {
-    ConnectToDB
+    ConnectToDB,
+    DisconnectDB
 }
