@@ -83,6 +83,15 @@ export const RATE_LIMITS: any = {
 
     },
 
+    "/api/v1/login/": {
+
+        GET: {
+            limit: 10,
+            removeAfter: 60
+        }
+
+    },
+
 }
 
 
@@ -99,12 +108,13 @@ export const SESSION_OPTIONS = {
 
     cookie: {
         httpOnly: true,
-        secure: true,
+        secure: "auto",
         sameSite: false,
         maxAge: (1000 * 60) * 60 * 60 * 24 * 7, // One week
     }
 
 };
+
 
 
 // DATABASE INFO
