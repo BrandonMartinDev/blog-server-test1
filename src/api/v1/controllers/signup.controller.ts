@@ -2,14 +2,22 @@
 
 // Types
 
-import { RespondToClient } from '@v1/services/Response.service';
-import { CreateUser } from '@v1/services/user.service';
-import { CatchErr } from '@v1/utils/CatchErr.utils';
 import {
     type Request,
     type Response,
     type NextFunction
 } from 'express';
+
+
+// Utils
+
+import { CatchErr } from '@v1/utils/CatchErr.utils';
+
+
+// Services
+
+import { RespondToClient } from '@v1/services/Response.service';
+import { CreateUser } from '@v1/services/user.service';
 
 
 
