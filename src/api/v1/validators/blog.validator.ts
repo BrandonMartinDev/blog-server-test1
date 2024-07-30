@@ -68,7 +68,7 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
         }
 
-        
+
         // Checks if user has valid permissions to post blog
 
         if (!user.permissions?.canPostBlog) {
@@ -84,6 +84,221 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
             });
 
             return;
+
+        }
+
+
+        // Checks if title and sections exist on request body
+
+        const { title, sections } = req.body;
+
+        if (!title) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'title' was not provided in the request body"
+                }
+
+            });
+
+            return;
+
+        }
+
+        if (!sections) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'sections' was not provided in the request body"
+                }
+
+            });
+
+            return;
+
+        }
+
+        if (!sections.length || sections.length < 1) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "There must be at least 1 section provided in 'sections'"
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Validates sections data
+
+        for (let i = 0; i < sections.length; i++) {
+
+            const section = sections[i];
+
+
+            // Validate section heading
+
+            if (!section.heading) {
+
+                RespondToClient(res, {
+
+                    statusCode: 400,
+
+                    responseJson: {
+                        error: (`'heading' missing on section '${i}'`)
+                    }
+
+                });
+
+                return;
+
+            }
+
+            if (!section.heading.length || section.heading.length > 100 || section.heading.length < 3) {
+
+                RespondToClient(res, {
+
+                    statusCode: 400,
+
+                    responseJson: {
+                        error: (`'heading' on section '${i}' must be between 3-100 characters long.`)
+                    }
+
+                });
+
+                return;
+
+            }
+
+
+            // Validate section textSections
+
+            if (!section.textSections) {
+
+                RespondToClient(res, {
+
+                    statusCode: 400,
+
+                    responseJson: {
+                        error: (`'textSections' missing on section '${i}'`)
+                    }
+
+                });
+
+                return;
+
+            }
+
+            if (!section.textSections.length || section.textSections.length < 1) {
+
+                RespondToClient(res, {
+
+                    statusCode: 400,
+
+                    responseJson: {
+                        error: (`section '${i}' must have at least one textSection`)
+                    }
+
+                });
+
+                return;
+
+            }
+
+
+            // Validate each textSection
+
+            for (let j = 0; j < section.textSections.length; j++) {
+
+                const textSection = section.textSections[j];
+
+
+                // Validate textSection body
+
+                if (!textSection.body) {
+
+                    RespondToClient(res, {
+
+                        statusCode: 400,
+
+                        responseJson: {
+                            error: (`'body' missing on textSection '${j}' in section '${i}'`)
+                        }
+
+                    });
+
+                    return;
+
+                }
+
+                if (!textSection.body.length || textSection.body.length > 1500 || textSection.body.length < 5) {
+
+                    RespondToClient(res, {
+
+                        statusCode: 400,
+
+                        responseJson: {
+                            error: (`'body' on textSection '${j}' in section '${i}' must be between 5-1500 characters long.`)
+                        }
+
+                    });
+
+                    return;
+
+                }
+
+
+                // Validate textSection image (image is not required)
+
+                if (textSection.image) {
+
+                    if (!textSection.image.url) { 
+
+                        RespondToClient(res, {
+
+                            statusCode: 400,
+
+                            responseJson: {
+                                error: (`'url' missing on 'image' in textSection '${j}' in section '${i}'`)
+                            }
+
+                        });
+
+                        return;
+
+                    }
+
+                    if (!textSection.image.url.length || textSection.image.url.length > 1000 || textSection.image.url.length < 3) {
+
+                        RespondToClient(res, {
+
+                            statusCode: 400,
+
+                            responseJson: {
+                                error: (`'url' on 'image' in textSection '${j}' in section '${i}' must be between 3-1000 characters long.`)
+                            }
+
+                        });
+
+                        return;
+
+                    }
+
+                }
+
+            }
 
         }
 
