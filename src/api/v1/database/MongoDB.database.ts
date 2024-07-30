@@ -38,13 +38,11 @@ async function ConnectToDB() {
 
 async function DisconnectDB() {
 
-    console.log("Disconnecting database...");
-
     if (connectedDB) {
+        console.log("Disconnecting database...");
         await mongoose.connection.close();
+        console.log("Disconnected database successfully");
     }
-
-    console.log("Disconnected database successfully");
 
 }
 
