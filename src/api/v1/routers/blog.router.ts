@@ -22,7 +22,7 @@ import { ValidateCanPostBlog } from '@v1validators/blog.validator';
 
 // Controllers
 
-// import { LoginUser } from '@v1controllers/login.controller';
+import { PostBlog } from '@v1controllers/blog.controller';
 
 
 // Services
@@ -41,7 +41,7 @@ const BlogRouter = express.Router();
 
 BlogRouter.route('/')
     // POST /api/v1/blog
-    .post(ValidateUserIsLoggedIn, ValidateCanPostBlog)
+    .post(ValidateUserIsLoggedIn, ValidateCanPostBlog, PostBlog)
     // GET /api/v1/blog
     .get((req: Request, res: Response, next: NextFunction) => {
 
