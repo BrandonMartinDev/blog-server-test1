@@ -262,7 +262,7 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
                 // Validate textSection image (image is not required)
 
-                if (textSection.image) {
+                if ("image" in textSection) {
 
                     if (!textSection.image.url) { 
 
