@@ -2,7 +2,10 @@
 
 // Defaults
 
-import { MONGO_CONNECTION_STRING } from "@v1config/defaults";
+import {
+    MONGO_CONNECTION_STRING,
+    MONGOOSE_CONNECTION_OPTIONS
+} from "@v1config/defaults";
 
 
 // Modules/Packages
@@ -24,7 +27,7 @@ async function ConnectToDB() {
 
     try {
 
-        connectedDB = await mongoose.connect(MONGO_CONNECTION_STRING);
+        connectedDB = await mongoose.connect(MONGO_CONNECTION_STRING, MONGOOSE_CONNECTION_OPTIONS);
 
         console.log("Connected to database successfully!");
 
@@ -40,9 +43,11 @@ async function DisconnectDB() {
 
     if (connectedDB) {
         console.log("Disconnecting database...");
-        await mongoose.connection.close();
+        await mongoose.disconnect();
         console.log("Disconnected database successfully");
     }
+
+    process.exit(0);
 
 }
 

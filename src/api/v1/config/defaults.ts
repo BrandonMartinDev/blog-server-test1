@@ -143,3 +143,11 @@ export const MONGO_PASSWORD: string = process.env.MONGO_PASSWORD as string;
 export const MONGO_CONNECTION_STRING: string = (process.env.MONGO_CONNECTION_STRING as string)
     .replace('<username>', MONGO_USERNAME)
     .replace('<password>', MONGO_PASSWORD);
+
+
+export const MONGOOSE_CONNECTION_OPTIONS = {
+
+    maxPoolSize: 200,
+    minPoolSize: 50
+
+}
