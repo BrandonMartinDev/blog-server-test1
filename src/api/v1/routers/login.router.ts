@@ -30,7 +30,7 @@ import { RespondToClient } from '@v1services/Response.service';
 
 
 
-// -- == [[ INITIALIZE SIGNUP ROUTER ]] == -- \\
+// -- == [[ INITIALIZE LOGIN ROUTER ]] == -- \\
 
 const LoginRouter = express.Router();
 
