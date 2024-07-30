@@ -88,6 +88,11 @@ export const RATE_LIMITS: any = {
         GET: {
             limit: 10,
             removeAfter: 60
+        },
+
+        POST: {
+            limit: 10,
+            removeAfter: 60
         }
 
     },
