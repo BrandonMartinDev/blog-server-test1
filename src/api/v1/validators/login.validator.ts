@@ -27,9 +27,23 @@ async function ValidateUserIsLoggedIn(req: Request, res: Response, next: NextFun
 
     try {
 
-        console.log(req.session);
+        // Checks if a logged in user exists in the session
 
-        if (req.session) {
+        const userId = req.session.loggedInUserID;        
+
+        if (!userId) {
+
+            RespondToClient(res, {
+
+                statusCode: 401,
+
+                responseJson: {
+                    error: (`Not logged in`)
+                }
+
+            })
+
+            return;
 
         }
 
