@@ -97,6 +97,20 @@ export const RATE_LIMITS: any = {
 
     },
 
+    "/api/v1/blog/": {
+
+        GET: {
+            limit: 30,
+            removeAfter: 60
+        },
+
+        POST: {
+            limit: 5,
+            removeAfter: 60
+        }
+
+    },
+
 }
 
 
