@@ -18,6 +18,7 @@ const ImageSchema = new mongoose.Schema({
 
     url: {
         type: mongoose.SchemaTypes.String,
+        min: 3,
         max: 1000,
         required: true,
     },
@@ -36,7 +37,9 @@ const TextSectionSchema = new mongoose.Schema({
 
     image: {
         type: ImageSchema,
-        required: false
+        required: false,
+        _id: false,
+        id: false
     }
 
 });
@@ -54,7 +57,9 @@ const ArticleSectionSchema = new mongoose.Schema({
     textSections: {
         type: [TextSectionSchema],
         default: [],
-        required: true
+        required: true,
+        _id: false,
+        id: false
     }
 
 })
@@ -79,19 +84,25 @@ const ArticleSchema = new mongoose.Schema({
     sections: {
         type: [ArticleSectionSchema],
         default: [],
-        required: true
+        required: true,
+        _id: false,
+        id: false
     },
 
     comments: {
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
-        required: false
+        required: false,
+        _id: false,
+        id: false
     },
 
     likedBy: {
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
-        required: false
+        required: false,
+        _id: false,
+        id: false
     }
 
 }, {

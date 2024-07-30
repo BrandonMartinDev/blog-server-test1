@@ -3,8 +3,6 @@
 // Modules/Packages
 
 import mongoose from "mongoose";
-import { UserSchema } from "@v1models/user.model";
-import { ArticleSchema } from "@v1models/blog.model";
 
 
 
@@ -34,7 +32,9 @@ const CommentSchema = new mongoose.Schema({
     likedBy: {
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
-        required: false
+        required: false,
+        _id: false,
+        id: false
     }
 
 }, {

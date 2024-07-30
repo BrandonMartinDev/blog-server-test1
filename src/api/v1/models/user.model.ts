@@ -74,19 +74,25 @@ const UserSchema = new mongoose.Schema({
         },
 
         required: false,
+        _id: false,
+        id: false
 
     },
 
     createdBlogArticles: {
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
-        required: false
+        required: false,
+        _id: false,
+        id: false
     },
 
     createdComments: {
         type: [mongoose.SchemaTypes.ObjectId],
         default: [],
-        required: false
+        required: false,
+        _id: false,
+        id: false
     }
 
 }, {
