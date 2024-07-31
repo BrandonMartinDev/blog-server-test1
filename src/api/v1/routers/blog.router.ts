@@ -17,12 +17,12 @@ import express from 'express';
 // Validators
 
 import { ValidateUserIsLoggedIn } from '@v1validators/login.validator';
-import { ValidateCanPostBlog } from '@v1validators/blog.validator';
+import { ValidateCanPostBlog, ValidateGetBlog } from '@v1validators/blog.validator';
 
 
 // Controllers
 
-import { PostBlog } from '@v1controllers/blog.controller';
+import { PostBlog, GetBlog } from '@v1controllers/blog.controller';
 
 
 // Services
@@ -38,6 +38,12 @@ const BlogRouter = express.Router();
 
 
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
+
+BlogRouter.route('/:blog_id')
+    // GET /api/v1/blog/{BLOG_ID}
+    .get(ValidateGetBlog, GetBlog)
+
+
 
 BlogRouter.route('/')
     // POST /api/v1/blog

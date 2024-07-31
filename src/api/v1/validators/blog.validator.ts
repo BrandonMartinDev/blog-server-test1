@@ -9,6 +9,11 @@ import {
 } from 'express';
 
 
+// Modules/Packages
+
+import mongoose from 'mongoose';
+
+
 // Utils
 
 import { CatchErr } from '@v1utils/CatchErr.utils'
@@ -264,7 +269,7 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
                 if ("image" in textSection) {
 
-                    if (!textSection.image.url) { 
+                    if (!textSection.image.url) {
 
                         RespondToClient(res, {
 
@@ -322,6 +327,71 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
 }
 
+async function ValidateGetBlog(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+        // Gets blog_id 
+
+        if (!("blog_id" in req.params)) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'blog_id' parameter was not found. Please format your request to the following: /api/v1/blog/{BLOG_ID_HERE}"
+                }
+
+            });
+
+            return;
+
+        }
+
+        const { blog_id } = req.params;
+
+
+        // Validates blog_id
+
+        const validID = mongoose.isValidObjectId(blog_id);
+
+        if (!validID) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: `id parameter provided, '${blog_id}', is not a valid BSON object id!`
+                }
+
+            })
+
+            return;
+
+        }
+
+        next();
+
+    } catch (err) {
+
+        CatchErr(err, "ERROR VALIDATING GET BLOG");
+
+        RespondToClient(res, {
+
+            statusCode: 500,
+
+            responseJson: {
+                error: "There was an unknown error processing your request"
+            }
+
+        });
+
+    }
+
+}
+
 
 
 // -- == [[ EXPORTS ]] == -- \\
@@ -329,5 +399,6 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 export {
 
     ValidateCanPostBlog,
+    ValidateGetBlog
 
 }

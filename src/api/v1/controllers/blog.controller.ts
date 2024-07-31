@@ -18,11 +18,80 @@ import { CatchErr } from '@v1/utils/CatchErr.utils';
 
 import { RespondToClient } from '@v1/services/Response.service';
 import { GetUserByID } from '@v1services/user.service';
-import { CreateBlogArticle } from '@v1/services/blog.service';
+import { CreateBlogArticle, GetBlogByID } from '@v1/services/blog.service';
 
 
 
 // -- == [[ CONTROLLER METHODS ]] == -- \\
+
+async function GetBlog(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+
+        // Get blog_id from request parameters
+
+        const { blog_id } = req.params;
+        if (!blog_id) throw new Error("Could not get 'blog_id' parameter!");
+
+
+        // Get blog info
+
+        const blog = await GetBlogByID(blog_id);
+
+        if (!blog) {
+
+            RespondToClient(res, {
+
+                statusCode: 404,
+
+                responseJson: {
+                    error: (`Could not find blog with an id of '${blog_id}'`)
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Sanitizes blog to be sent to client safely
+
+        const sanitizedBlog: any = blog;        // Checkout user.controller.ts @line 59
+
+        sanitizedBlog.__v = undefined;
+        sanitizedBlog.updatedAt = undefined;
+
+
+        RespondToClient(res, {
+
+            statusCode: 201,
+
+            responseJson: {
+                message: (`Successfully retrieved blog ${blog_id}`),
+                data: blog
+            }
+
+        });
+
+    } catch (err) {
+
+        CatchErr(err, "ERROR POSTING BLOG");
+
+        RespondToClient(res, {
+
+            statusCode: 500,
+
+            responseJson: {
+                error: "There was an error posting your blog"
+            }
+
+        });
+
+    }
+
+}
 
 async function PostBlog(req: Request, res: Response, next: NextFunction) {
 
@@ -96,7 +165,7 @@ async function PostBlog(req: Request, res: Response, next: NextFunction) {
             statusCode: 201,
 
             responseJson: {
-                error: (`Successfully created blog ${newBlog._id}`)
+                message: (`Successfully created blog ${newBlog._id}`)
             }
 
         });
@@ -125,6 +194,7 @@ async function PostBlog(req: Request, res: Response, next: NextFunction) {
 
 export {
 
-    PostBlog
+    PostBlog,
+    GetBlog
 
 }
