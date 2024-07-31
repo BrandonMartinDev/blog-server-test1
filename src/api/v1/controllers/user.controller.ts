@@ -27,7 +27,13 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
 
     try {
 
+        // Gets id from request parameters
+
         const { id } = req.params;
+        if (!id) throw new Error("Could not get 'id' parameter!");
+
+
+        // Gets user from id
 
         const user = await GetUserByID(id);
 
@@ -47,16 +53,15 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
 
         }
 
-        const sanitizedUser = {
 
-            username: user.username,
-            displayName: user.displayName,
-            createdBlogArticles: user.createdBlogArticles,
-            createdComments: user.createdComments,
+        // Sanitizes user to be sent to client safely
 
-            createdAt: user.createdAt
+        const sanitizedUser: any = user;        // I knowwww I hate using any too, but this will have to do for now ~ 7/31/2024
 
-        }
+        sanitizedUser.__v = undefined;          // I would have preferred to use the 'delete' syntax, but this will have to do :(
+        sanitizedUser.password = undefined;
+        sanitizedUser.updatedAt = undefined;
+
 
         RespondToClient(res, {
 
