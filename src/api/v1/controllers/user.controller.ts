@@ -61,6 +61,7 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
         sanitizedUser.__v = undefined;          // I would have preferred to use the 'delete' syntax, but this will have to do :(
         sanitizedUser.password = undefined;
         sanitizedUser.updatedAt = undefined;
+        sanitizedUser.permissions = undefined;
 
 
         RespondToClient(res, {
