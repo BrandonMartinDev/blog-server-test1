@@ -5,8 +5,10 @@
 type Article = {
 
     _id: string;                        // Handled by MongoDB (BlogID)
+    __v: Date;                          // Handled by MongoDB
+    updatedAt: Date;                    // Handled by MongoDB
 
-    author_id: string;                     // UserID of the author
+    author_id: string;                  // UserID of the author
     createdAt: Date;                    // Date timestamp of when the article was created
 
     title: string;                      // Title of the blog article (min 3 chars, max 100 chars)
