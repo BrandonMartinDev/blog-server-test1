@@ -8,6 +8,8 @@ import {
     type NextFunction
 } from 'express';
 
+import { Article } from '@v1/types/blog-types';
+
 
 // Utils
 
@@ -18,7 +20,13 @@ import { CatchErr } from '@v1/utils/CatchErr.utils';
 
 import { RespondToClient } from '@v1/services/Response.service';
 import { GetUserByID } from '@v1services/user.service';
-import { CreateBlogArticle, GetBlogByID } from '@v1/services/blog.service';
+import { SanitizeBlog } from '@v1/services/sanitize.service';
+
+import {
+    CreateBlogArticle,
+    GetBlogByID,
+    GetFeaturedBlogsFromDB
+} from '@v1/services/blog.service';
 
 
 
@@ -58,10 +66,7 @@ async function GetBlog(req: Request, res: Response, next: NextFunction) {
 
         // Sanitizes blog to be sent to client safely
 
-        const sanitizedBlog: any = blog;        // Checkout user.controller.ts @line 59
-
-        sanitizedBlog.__v = undefined;
-        sanitizedBlog.updatedAt = undefined;
+        const sanitizedBlog = SanitizeBlog(blog as unknown as Article);
 
 
         RespondToClient(res, {
@@ -77,7 +82,70 @@ async function GetBlog(req: Request, res: Response, next: NextFunction) {
 
     } catch (err) {
 
-        CatchErr(err, "ERROR POSTING BLOG");
+        CatchErr(err, "ERROR GETTING BLOG");
+
+        RespondToClient(res, {
+
+            statusCode: 500,
+
+            responseJson: {
+                error: "There was an error posting your blog"
+            }
+
+        });
+
+    }
+
+}
+
+async function GetFeaturedBlogs(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+
+        // Get blog_id from request parameters
+
+
+        // Get blog info
+
+        const blogList = await GetFeaturedBlogsFromDB();
+
+        if (!blogList) {
+
+            RespondToClient(res, {
+
+                statusCode: 500,
+
+                responseJson: {
+                    error: (`Could not get featured blogs`)
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Sanitizes blogs to be sent to client safely
+
+        const sanitizedBlogList = blogList.map((blog: unknown) => SanitizeBlog(blog as Article));
+
+
+        RespondToClient(res, {
+
+            statusCode: 201,
+
+            responseJson: {
+                message: (`Successfully retrieved featured blogs`),
+                data: sanitizedBlogList
+            }
+
+        });
+
+    } catch (err) {
+
+        CatchErr(err, "ERROR GETTING FEATURED BLOGS");
 
         RespondToClient(res, {
 
@@ -195,6 +263,7 @@ async function PostBlog(req: Request, res: Response, next: NextFunction) {
 export {
 
     PostBlog,
-    GetBlog
+    GetBlog,
+    GetFeaturedBlogs
 
 }

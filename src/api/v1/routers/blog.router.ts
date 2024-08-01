@@ -22,7 +22,7 @@ import { ValidateCanPostBlog, ValidateGetBlog } from '@v1validators/blog.validat
 
 // Controllers
 
-import { PostBlog, GetBlog } from '@v1controllers/blog.controller';
+import { PostBlog, GetBlog, GetFeaturedBlogs } from '@v1controllers/blog.controller';
 
 
 // Services
@@ -38,6 +38,12 @@ const BlogRouter = express.Router();
 
 
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
+
+BlogRouter.route('/featured')
+    // GET /api/v1/blog/featured
+    .get(GetFeaturedBlogs)
+
+
 
 BlogRouter.route('/:blog_id')
     // GET /api/v1/blog/{BLOG_ID}
