@@ -16,11 +16,7 @@ async function GetBlogByID(id: string) {
 
 
 async function GetFeaturedBlogsFromDB() {
-
-    const test = ArticleModel.find({}).limit(10).populate("author");
-
-    return test;
-
+    return await ArticleModel.find({}).limit(10).populate("author");
 }
 
 
