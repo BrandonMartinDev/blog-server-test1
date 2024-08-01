@@ -89,7 +89,7 @@ async function GetBlog(req: Request, res: Response, next: NextFunction) {
             statusCode: 500,
 
             responseJson: {
-                error: "There was an error posting your blog"
+                error: "There was an error getting blog"
             }
 
         });
@@ -152,7 +152,7 @@ async function GetFeaturedBlogs(req: Request, res: Response, next: NextFunction)
             statusCode: 500,
 
             responseJson: {
-                error: "There was an error posting your blog"
+                error: "There was an error getting featured blogs"
             }
 
         });
