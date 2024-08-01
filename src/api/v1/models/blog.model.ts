@@ -16,6 +16,13 @@ const ArticleSchema = new mongoose.Schema({
         required: true
     },
 
+    coverImage: {
+        type: mongoose.SchemaTypes.String,
+        minLength: 3,
+        maxLength: 1000,
+        required: true
+    },
+
     title: {
         type: mongoose.SchemaTypes.String,
         minLength: 3,

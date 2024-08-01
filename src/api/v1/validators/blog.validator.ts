@@ -93,9 +93,25 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
         }
 
 
-        // Checks if title and sections exist on request body
+        // Checks if coverImage, title and body exist on request body
 
-        const { title, body } = req.body;
+        const { coverImage, title, body } = req.body;
+
+        if (!coverImage) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'coverImage' was not provided in the request body"
+                }
+
+            });
+
+            return;
+
+        }
 
         if (!title) {
 
@@ -130,7 +146,23 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
         }
 
 
-        // Validates title and body
+        // Validates coverImage, title and body
+
+        if (!coverImage.length || coverImage.length < 3 || coverImage.length > 1000) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'coverImage' url must be between 3-1000 characters long!"
+                }
+
+            });
+
+            return;
+
+        }
 
         if (!title.length || title.length < 3 || title.length > 100) {
 
