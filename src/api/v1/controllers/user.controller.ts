@@ -8,6 +8,8 @@ import {
     type NextFunction
 } from 'express';
 
+import { User } from '@v1/types/user-types';
+
 
 // Utils
 
@@ -18,6 +20,7 @@ import { CatchErr } from '@v1utils/CatchErr.utils';
 
 import { RespondToClient } from '@v1services/Response.service';
 import { GetUserByID } from '@v1services/user.service';
+import { SanitizeUser } from '@v1/services/sanitize.service';
 
 
 
@@ -56,12 +59,7 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
 
         // Sanitizes user to be sent to client safely
 
-        const sanitizedUser: any = user;        // I knowwww I hate using any too, but this will have to do for now ~ 7/31/2024
-
-        sanitizedUser.__v = undefined;          // I would have preferred to use the 'delete' syntax, but this will have to do :(
-        sanitizedUser.password = undefined;
-        sanitizedUser.updatedAt = undefined;
-        sanitizedUser.permissions = undefined;
+        const sanitizedUser = SanitizeUser(user as unknown as User);
 
 
         RespondToClient(res, {
