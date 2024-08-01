@@ -5,7 +5,7 @@ export const SERVER_URL: string = process.env.SERVER_URL as string || "http://lo
 
 export const CORS_OPTIONS = {
     credentials: true,
-    origin: SERVER_URL
+    origin: [SERVER_URL, 'http://localhost:5173'],
 };
 
 export const LOGS_DIR: string = "src/api/v1/logs";
@@ -78,7 +78,7 @@ export const RATE_LIMITS: any = {
 
         GET: {
             limit: 30,
-            removeAfter: 60
+            removeAfter: 30
         }
 
     },
@@ -101,13 +101,22 @@ export const RATE_LIMITS: any = {
 
         GET: {
             limit: 30,
-            removeAfter: 60
+            removeAfter: 30
         },
 
         POST: {
             limit: 5,
             removeAfter: 60
         }
+
+    },
+
+    "/api/v1/featured/": {
+
+        GET: {
+            limit: 30,
+            removeAfter: 30
+        },
 
     },
 
