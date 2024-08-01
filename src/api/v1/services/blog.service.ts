@@ -15,6 +15,15 @@ async function GetBlogByID(id: string) {
 }
 
 
+async function GetFeaturedBlogsFromDB() {
+
+    const test = ArticleModel.find({}).limit(10);
+
+    return test;
+
+}
+
+
 async function CreateBlogArticle(author_id: string, blogInfo: Article) {
 
     // Gets the user from the author_id provided
@@ -52,6 +61,7 @@ async function CreateBlogArticle(author_id: string, blogInfo: Article) {
 export {
 
     GetBlogByID,
+    GetFeaturedBlogsFromDB,
     CreateBlogArticle,
 
 }
