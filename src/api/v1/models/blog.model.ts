@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 
 const ArticleSchema = new mongoose.Schema({
 
-    author_id: {
+    author: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "User",
         required: true

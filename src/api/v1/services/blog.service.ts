@@ -11,13 +11,13 @@ import { GetUserByID } from "./user.service";
 // -- == [[ SERVICE METHODS ]] == -- \\
 
 async function GetBlogByID(id: string) {
-    return await ArticleModel.findById(id);
+    return await ArticleModel.findById(id).populate("author");
 }
 
 
 async function GetFeaturedBlogsFromDB() {
 
-    const test = ArticleModel.find({}).limit(10);
+    const test = ArticleModel.find({}).limit(10).populate("author");
 
     return test;
 
@@ -32,9 +32,15 @@ async function CreateBlogArticle(author_id: string, blogInfo: Article) {
     if (!user) throw new Error(`There was an error getting a user with the id: ${author_id}`);
 
 
+    // Verifies user can create blog article
+
+    const canPostBlog = user.permissions?.canPostBlog;
+    if (!canPostBlog) throw new Error(`User ${author_id} cannot post blog!`);
+
+
     // Adds the user's _id to the blogInfo provided
 
-    blogInfo.author_id = user._id.toString();
+    blogInfo.author = user._id.toString();
 
 
     // Creates a new blog
