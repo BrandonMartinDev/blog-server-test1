@@ -71,9 +71,7 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
             responseJson: {
 
                 message: "Successfully retrieved user info",
-                data: {
-                    user: sanitizedUser
-                }
+                data: sanitizedUser
 
             }
 

@@ -70,7 +70,7 @@ async function GetBlog(req: Request, res: Response, next: NextFunction) {
 
             responseJson: {
                 message: (`Successfully retrieved blog ${blog_id}`),
-                data: blog
+                data: sanitizedBlog
             }
 
         });
