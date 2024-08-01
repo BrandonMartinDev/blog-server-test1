@@ -95,7 +95,7 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
         // Checks if title and sections exist on request body
 
-        const { title, sections } = req.body;
+        const { title, body } = req.body;
 
         if (!title) {
 
@@ -113,30 +113,14 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
         }
 
-        if (!sections) {
+        if (!body) {
 
             RespondToClient(res, {
 
                 statusCode: 400,
 
                 responseJson: {
-                    error: "'sections' was not provided in the request body"
-                }
-
-            });
-
-            return;
-
-        }
-
-        if (!sections.length || sections.length < 1) {
-
-            RespondToClient(res, {
-
-                statusCode: 400,
-
-                responseJson: {
-                    error: "There must be at least 1 section provided in 'sections'"
+                    error: "'body' was not provided in the request body"
                 }
 
             });
@@ -146,166 +130,41 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
         }
 
 
-        // Validates sections data
+        // Validates title and body
 
-        for (let i = 0; i < sections.length; i++) {
+        if (!title.length || title.length < 3 || title.length > 100) {
 
-            const section = sections[i];
+            RespondToClient(res, {
 
+                statusCode: 400,
 
-            // Validate section heading
-
-            if (!section.heading) {
-
-                RespondToClient(res, {
-
-                    statusCode: 400,
-
-                    responseJson: {
-                        error: (`'heading' missing on section '${i}'`)
-                    }
-
-                });
-
-                return;
-
-            }
-
-            if (!section.heading.length || section.heading.length > 100 || section.heading.length < 3) {
-
-                RespondToClient(res, {
-
-                    statusCode: 400,
-
-                    responseJson: {
-                        error: (`'heading' on section '${i}' must be between 3-100 characters long.`)
-                    }
-
-                });
-
-                return;
-
-            }
-
-
-            // Validate section textSections
-
-            if (!section.textSections) {
-
-                RespondToClient(res, {
-
-                    statusCode: 400,
-
-                    responseJson: {
-                        error: (`'textSections' missing on section '${i}'`)
-                    }
-
-                });
-
-                return;
-
-            }
-
-            if (!section.textSections.length || section.textSections.length < 1) {
-
-                RespondToClient(res, {
-
-                    statusCode: 400,
-
-                    responseJson: {
-                        error: (`section '${i}' must have at least one textSection`)
-                    }
-
-                });
-
-                return;
-
-            }
-
-
-            // Validate each textSection
-
-            for (let j = 0; j < section.textSections.length; j++) {
-
-                const textSection = section.textSections[j];
-
-
-                // Validate textSection body
-
-                if (!textSection.body) {
-
-                    RespondToClient(res, {
-
-                        statusCode: 400,
-
-                        responseJson: {
-                            error: (`'body' missing on textSection '${j}' in section '${i}'`)
-                        }
-
-                    });
-
-                    return;
-
+                responseJson: {
+                    error: "'title' must be between 3-100 characters long!"
                 }
 
-                if (!textSection.body.length || textSection.body.length > 1500 || textSection.body.length < 5) {
+            });
 
-                    RespondToClient(res, {
-
-                        statusCode: 400,
-
-                        responseJson: {
-                            error: (`'body' on textSection '${j}' in section '${i}' must be between 5-1500 characters long.`)
-                        }
-
-                    });
-
-                    return;
-
-                }
-
-
-                // Validate textSection image (image is not required)
-
-                if ("image" in textSection) {
-
-                    if (!textSection.image.url) {
-
-                        RespondToClient(res, {
-
-                            statusCode: 400,
-
-                            responseJson: {
-                                error: (`'url' missing on 'image' in textSection '${j}' in section '${i}'`)
-                            }
-
-                        });
-
-                        return;
-
-                    }
-
-                    if (!textSection.image.url.length || textSection.image.url.length > 1000 || textSection.image.url.length < 3) {
-
-                        RespondToClient(res, {
-
-                            statusCode: 400,
-
-                            responseJson: {
-                                error: (`'url' on 'image' in textSection '${j}' in section '${i}' must be between 3-1000 characters long.`)
-                            }
-
-                        });
-
-                        return;
-
-                    }
-
-                }
-
-            }
+            return;
 
         }
+
+        if (!body.length || body.length < 5 || body.length > 25000) {
+
+            RespondToClient(res, {
+
+                statusCode: 400,
+
+                responseJson: {
+                    error: "'body' must be between 5-25000 characters long!"
+                }
+
+            });
+
+            return;
+
+        }
+
+
 
         next();
 

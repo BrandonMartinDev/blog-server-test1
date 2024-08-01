@@ -8,64 +8,6 @@ import mongoose from "mongoose";
 
 // -- == [[ SCHEMAS ]] == -- \\
 
-const ImageSchema = new mongoose.Schema({
-
-    appearsBeforeText: {
-        type: mongoose.SchemaTypes.Boolean,
-        default: false,
-        required: false
-    },
-
-    url: {
-        type: mongoose.SchemaTypes.String,
-        min: 3,
-        max: 1000,
-        required: true,
-    },
-
-});
-
-
-const TextSectionSchema = new mongoose.Schema({
-
-    body: {
-        type: mongoose.SchemaTypes.String,
-        minLength: 5,
-        maxLength: 1500,
-        required: true
-    },
-
-    image: {
-        type: ImageSchema,
-        required: false,
-        _id: false,
-        id: false
-    }
-
-});
-
-
-const ArticleSectionSchema = new mongoose.Schema({
-
-    heading: {
-        type: mongoose.SchemaTypes.String,
-        minLength: 3,
-        maxLength: 100,
-        required: true
-    },
-
-    textSections: {
-        type: [TextSectionSchema],
-        default: [],
-        required: true,
-        _id: false,
-        id: false
-    }
-
-})
-
-
-
 const ArticleSchema = new mongoose.Schema({
 
     author_id: {
@@ -81,9 +23,10 @@ const ArticleSchema = new mongoose.Schema({
         required: true
     },
 
-    sections: {
-        type: [ArticleSectionSchema],
-        default: [],
+    body: {
+        type: String,
+        minLength: 5,
+        maxLength: 25000,
         required: true,
         _id: false,
         id: false
@@ -121,11 +64,7 @@ const ArticleModel = mongoose.model("Article", ArticleSchema);
 
 export {
 
-    ImageSchema,
-    TextSectionSchema,
-    ArticleSectionSchema,
     ArticleSchema,
-
     ArticleModel
 
 }
