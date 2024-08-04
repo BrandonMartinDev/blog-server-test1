@@ -56,7 +56,7 @@ const LoggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     const rateLimitCheck = CheckRequestLimit(req);
 
-    const logString = `${new Date().toISOString()} || ${req.ip} || ${loggedInUserID ? loggedInUserID : "GUEST"} || ${req.method} || ${req.originalUrl} || Rate Limit Check: ${rateLimitCheck}`
+    const logString = `${new Date().toISOString()} || ${(req.ips[0]) || req.ip} || ${loggedInUserID ? loggedInUserID : "GUEST"} || ${req.method} || ${req.originalUrl} || Rate Limit Check: ${rateLimitCheck}`
 
     const previousLogs = (() => {
         try {
