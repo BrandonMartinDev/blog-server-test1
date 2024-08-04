@@ -69,7 +69,7 @@ export const RATE_LIMITS: any = {
         },
 
         POST: {
-            limit: 2,
+            limit: 5,
             removeAfter: 60
         }
 
