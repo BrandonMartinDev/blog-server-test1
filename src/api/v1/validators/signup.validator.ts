@@ -123,6 +123,28 @@ async function PostSignupValidator(req: Request, res: Response, next: NextFuncti
         }
 
 
+        // Validate password is in the correct format
+
+        const passwordRegEx = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_-]).{8,150}$/, "g");
+        const passedPasswordRegEx = passwordRegEx.test(password);
+
+        if (!passedPasswordRegEx) {
+
+            RespondToClient(res, {
+
+                statusCode: 422,
+
+                responseJson: {
+                    error: "Password must be between 8-150 characters long and must include 1 uppercase and lowercase letter, 1 number, and 1 symbol"
+                }
+
+            });
+
+            return;
+
+        }
+
+
         // Checks if user with the same username already exists
 
         const user = await GetUserByName(username);
