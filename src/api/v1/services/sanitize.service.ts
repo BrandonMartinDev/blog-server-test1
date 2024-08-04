@@ -28,6 +28,10 @@ function SanitizeBlog(blog: Article) {
 
     const sanitizedBlog: any = blog;
 
+    if (typeof blog.author !== "string") {
+        sanitizedBlog.author = SanitizeUser(blog.author);
+    }
+
     sanitizedBlog.__v = undefined;
     sanitizedBlog.updatedAt = undefined;
 
