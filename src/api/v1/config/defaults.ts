@@ -2,6 +2,7 @@
 
 export const PORT: number = parseInt(process.env.PORT as string) || 4200;
 export const SERVER_URL: string = process.env.SERVER_URL as string || "http://localhost:3000/";
+export const SALT_ROUNDS: number = 15;
 
 export const CORS_OPTIONS = {
     credentials: true,
