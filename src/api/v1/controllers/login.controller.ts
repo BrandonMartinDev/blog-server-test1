@@ -67,13 +67,13 @@ async function LoginUser(req: Request, res: Response, next: NextFunction) {
             RespondToClient(res, {
 
                 statusCode: 200,
-    
+
                 responseJson: {
                     error: `Username or password is incorrect.`
                 }
-    
+
             });
-    
+
             return;
 
         }
@@ -91,8 +91,7 @@ async function LoginUser(req: Request, res: Response, next: NextFunction) {
             statusCode: 200,
 
             responseJson: {
-                message: `Successfully logged in as ${user.displayName} - ${user._id}`,
-                data: loggedInUserID
+                message: `Successfully logged in as ${loggedInUserID}`
             }
 
         });
