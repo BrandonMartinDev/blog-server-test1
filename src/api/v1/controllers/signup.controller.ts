@@ -43,25 +43,22 @@ async function SignupUser(req: Request, res: Response, next: NextFunction) {
 
         // Hash password
 
-        bcrypt.hash(password, SALT_ROUNDS, async (err, hashedPassword) => {
+        const hashedPassword: string = await bcrypt.hash(password, SALT_ROUNDS);
+        if (!hashedPassword) throw new Error("There was an error hashing password.");
 
-            if (err) {
-                CatchErr(err);
-                throw new Error("There was an error creating the user");
+
+        // Create user in the database
+
+        const newUser = await CreateUser(username, hashedPassword);
+        if (!newUser) throw new Error("There was an error creating the user");
+
+        RespondToClient(res, {
+
+            statusCode: 201,
+
+            responseJson: {
+                message: `Successfully created user: ${username}`
             }
-
-            const newUser = await CreateUser(username, hashedPassword);
-            if (!newUser) throw new Error("There was an error creating the user");
-
-            RespondToClient(res, {
-
-                statusCode: 201,
-
-                responseJson: {
-                    message: `Successfully created user: ${username}`
-                }
-
-            });
 
         });
 

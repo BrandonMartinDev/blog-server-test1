@@ -1,5 +1,10 @@
 // -- == [[ IMPORTS ]] == -- \\
 
+// Modules/Packages
+
+import bcrypt from 'bcrypt';
+
+
 // Types
 
 import {
@@ -52,20 +57,23 @@ async function LoginUser(req: Request, res: Response, next: NextFunction) {
         };
 
 
-        // Checks if a the password provided is the same as the user's password
 
-        if (password !== user.password) {
+        // Compares if the password provided with the user's hashed password
+
+        const isValidPass = await bcrypt.compare(password, user.password);
+
+        if (!isValidPass) {
 
             RespondToClient(res, {
 
                 statusCode: 200,
-
+    
                 responseJson: {
                     error: `Username or password is incorrect.`
                 }
-
+    
             });
-
+    
             return;
 
         }
