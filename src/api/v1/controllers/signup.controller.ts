@@ -1,5 +1,10 @@
 // -- == [[ IMPORTS ]] == -- \\
 
+// Modules/Packages
+
+import bcrypt from 'bcrypt';
+
+
 // Types
 
 import {
@@ -9,15 +14,20 @@ import {
 } from 'express';
 
 
+// Defaults
+
+import { SALT_ROUNDS } from '@v1config/defaults';
+
+
 // Utils
 
-import { CatchErr } from '@v1/utils/CatchErr.utils';
+import { CatchErr } from '@v1utils/CatchErr.utils';
 
 
 // Services
 
-import { RespondToClient } from '@v1/services/Response.service';
-import { CreateUser } from '@v1/services/user.service';
+import { RespondToClient } from '@v1services/Response.service';
+import { CreateUser } from '@v1services/user.service';
 
 
 
@@ -28,21 +38,30 @@ async function SignupUser(req: Request, res: Response, next: NextFunction) {
     try {
 
         // Get username and password from request body
+
         const { username, password } = req.body;
 
-        
-        // Creates the user
+        // Hash password
 
-        const newUser = await CreateUser(username, password);
-        if (!newUser) throw new Error("There was an error creating the user");
+        bcrypt.hash(password, SALT_ROUNDS, async (err, hashedPassword) => {
 
-        RespondToClient(res, {
-
-            statusCode: 201,
-
-            responseJson: {
-                message: `Successfully created user: ${username}`
+            if (err) {
+                CatchErr(err);
+                throw new Error("There was an error creating the user");
             }
+
+            const newUser = await CreateUser(username, hashedPassword);
+            if (!newUser) throw new Error("There was an error creating the user");
+
+            RespondToClient(res, {
+
+                statusCode: 201,
+
+                responseJson: {
+                    message: `Successfully created user: ${username}`
+                }
+
+            });
 
         });
 
