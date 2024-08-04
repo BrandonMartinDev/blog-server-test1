@@ -81,7 +81,9 @@ async function LoginUser(req: Request, res: Response, next: NextFunction) {
 
         // Sets the session's loggedInUserID to the user
 
-        req.session.loggedInUserID = user._id.toString();
+        const loggedInUserID = user._id.toString();
+
+        req.session.loggedInUserID = loggedInUserID;
 
 
         RespondToClient(res, {
@@ -89,7 +91,8 @@ async function LoginUser(req: Request, res: Response, next: NextFunction) {
             statusCode: 200,
 
             responseJson: {
-                message: `Successfully logged in as ${user._id}`
+                message: `Successfully logged in as ${user.displayName} - ${user._id}`,
+                data: loggedInUserID
             }
 
         });
