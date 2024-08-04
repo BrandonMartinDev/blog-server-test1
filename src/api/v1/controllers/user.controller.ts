@@ -81,12 +81,83 @@ async function GetUser(req: Request, res: Response, next: NextFunction) {
 
 }
 
+async function GetLoggedInUser(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+        // Checks if a logged in user exists in the session
+
+        const userId = req.session.loggedInUserID;        
+
+        if (!userId) {
+
+            RespondToClient(res, {
+
+                statusCode: 401,
+
+                responseJson: {
+                    error: (`Not logged in`)
+                }
+
+            })
+
+            return;
+
+        }
+
+
+        // Gets user from id
+
+        const user = await GetUserByID(userId);
+
+        if (!user) {
+
+            RespondToClient(res, {
+
+                statusCode: 404,
+
+                responseJson: {
+                    error: `Logged in user could not be found!`
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Sanitizes user to be sent to client safely
+
+        const sanitizedUser: User = SanitizeUser(user as unknown as User);
+
+
+        RespondToClient(res, {
+
+            statusCode: 200,
+
+            responseJson: {
+
+                message: "Successfully retrieved logged in user info",
+                data: sanitizedUser
+
+            }
+
+        })
+
+    } catch (err) {
+        CatchErr(err, "ERROR GETTING LOGGED IN USER")
+    }
+
+}
+
 
 
 // -- == [[ EXPORTS ]] == -- \\
 
 export {
 
-    GetUser
+    GetUser,
+    GetLoggedInUser
 
 }

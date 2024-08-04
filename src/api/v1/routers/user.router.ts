@@ -17,11 +17,12 @@ import express from 'express';
 // Validators
 
 import { GetUserValidator } from '@v1validators/user.validator';
+import { ValidateUserIsLoggedIn } from '@v1/validators/login.validator';
 
 
 // Controllers
 
-import { GetUser } from '@v1controllers/user.controller';
+import { GetLoggedInUser, GetUser } from '@v1controllers/user.controller';
 
 
 // Services
@@ -37,6 +38,12 @@ const UserRouter = express.Router();
 
 
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
+
+UserRouter.route('/current')
+    // GET /api/v1/user/current
+    .get(ValidateUserIsLoggedIn, GetLoggedInUser);
+
+
 
 UserRouter.route('/:id')
     // GET /api/v1/user/{UserID}
