@@ -100,12 +100,17 @@ export const RATE_LIMITS: any = {
 
     "/api/v1/blog/": {
 
+        POST: {
+            limit: 5,
+            removeAfter: 60
+        },
+
         GET: {
             limit: 30,
             removeAfter: 30
         },
 
-        POST: {
+        PUT: {
             limit: 5,
             removeAfter: 60
         }
