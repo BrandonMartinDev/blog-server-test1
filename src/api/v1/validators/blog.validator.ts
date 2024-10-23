@@ -28,70 +28,12 @@ import { GetUserByID } from '@v1services/user.service';
 
 // -- == [[ VALIDATOR METHODS ]] == -- \\
 
-async function ValidateCanPostBlog(req: Request, res: Response, next: NextFunction) {
+
+
+async function ValidateBlogInfo(req: Request, res: Response, next: NextFunction) {
+
 
     try {
-
-        // Gets logged in userid
-
-        const userId = req.session.loggedInUserID;
-
-        if (!userId) {
-
-            RespondToClient(res, {
-
-                statusCode: 401,
-
-                responseJson: {
-                    error: "Not logged in"
-                }
-
-            });
-
-            return;
-
-        }
-
-
-        // Gets user from userid
-
-        const user = await GetUserByID(userId);
-
-        if (!user) {
-
-            RespondToClient(res, {
-
-                statusCode: 500,
-
-                responseJson: {
-                    error: "There was an error getting the current logged in user"
-                }
-
-            });
-
-            return;
-
-        }
-
-
-        // Checks if user has valid permissions to post blog
-
-        if (!user.permissions?.canPostBlog) {
-
-            RespondToClient(res, {
-
-                statusCode: 403,
-
-                responseJson: {
-                    error: "Unauthorized"
-                }
-
-            });
-
-            return;
-
-        }
-
 
         // Checks if coverImage, title and body exist on request body
 
@@ -196,7 +138,89 @@ async function ValidateCanPostBlog(req: Request, res: Response, next: NextFuncti
 
         }
 
+        next();
 
+    } catch (err) {
+
+        CatchErr(err, "ERROR VALIDATING BLOG INFO");
+
+        RespondToClient(res, {
+
+            statusCode: 500,
+
+            responseJson: {
+                error: "There was an unknown error processing your request"
+            }
+
+        });
+
+    }
+
+}
+
+async function ValidateCanPostBlog(req: Request, res: Response, next: NextFunction) {
+
+    try {
+
+        // Gets logged in userid
+
+        const userId = req.session.loggedInUserID;
+
+        if (!userId) {
+
+            RespondToClient(res, {
+
+                statusCode: 401,
+
+                responseJson: {
+                    error: "Not logged in"
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Gets user from userid
+
+        const user = await GetUserByID(userId);
+
+        if (!user) {
+
+            RespondToClient(res, {
+
+                statusCode: 500,
+
+                responseJson: {
+                    error: "There was an error getting the current logged in user"
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        // Checks if user has valid permissions to post blog
+
+        if (!user.permissions?.canPostBlog) {
+
+            RespondToClient(res, {
+
+                statusCode: 403,
+
+                responseJson: {
+                    error: "Unauthorized"
+                }
+
+            });
+
+            return;
+
+        }
 
         next();
 
@@ -284,11 +308,11 @@ async function ValidateGetBlog(req: Request, res: Response, next: NextFunction) 
 }
 
 
-
 // -- == [[ EXPORTS ]] == -- \\
 
 export {
 
+    ValidateBlogInfo,
     ValidateCanPostBlog,
     ValidateGetBlog
 

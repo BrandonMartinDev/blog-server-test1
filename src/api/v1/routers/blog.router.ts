@@ -17,12 +17,12 @@ import express from 'express';
 // Validators
 
 import { ValidateUserIsLoggedIn } from '@v1validators/login.validator';
-import { ValidateCanPostBlog, ValidateGetBlog } from '@v1validators/blog.validator';
+import { ValidateBlogInfo, ValidateCanPostBlog, ValidateGetBlog } from '@v1validators/blog.validator';
 
 
 // Controllers
 
-import { PostBlog, GetBlog, GetFeaturedBlogs } from '@v1controllers/blog.controller';
+import { PostBlog, GetBlog, GetFeaturedBlogs, EditBlog } from '@v1controllers/blog.controller';
 
 
 // Services
@@ -48,12 +48,14 @@ BlogRouter.route('/featured')
 BlogRouter.route('/:blog_id')
     // GET /api/v1/blog/{BLOG_ID}
     .get(ValidateGetBlog, GetBlog)
+    // PUT /api/v1/blog{BLOG_ID}
+    .put(ValidateUserIsLoggedIn, ValidateCanPostBlog, ValidateBlogInfo, EditBlog)
 
 
 
 BlogRouter.route('/')
     // POST /api/v1/blog
-    .post(ValidateUserIsLoggedIn, ValidateCanPostBlog, PostBlog)
+    .post(ValidateUserIsLoggedIn, ValidateCanPostBlog, ValidateBlogInfo, PostBlog)
     // GET /api/v1/blog
     .get((req: Request, res: Response, next: NextFunction) => {
 
