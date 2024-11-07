@@ -6,7 +6,11 @@ export const SALT_ROUNDS: number = 15;
 
 export const CORS_OPTIONS = {
     credentials: true,
-    origin: [SERVER_URL, 'http://localhost:5173'],
+    origin: [
+        SERVER_URL,
+        'http://localhost:5173',    // Dev build of Vite + React
+        'http://localhost:4173'     // Prod build of Vite + React
+    ],
 };
 
 export const LOGS_DIR: string = "src/api/v1/logs";
