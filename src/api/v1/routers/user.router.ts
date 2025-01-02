@@ -22,7 +22,17 @@ import { ValidateUserIsLoggedIn } from '@v1/validators/login.validator';
 
 // Controllers
 
-import { GetLoggedInUser, GetUser } from '@v1controllers/user.controller';
+import {
+
+    GetLoggedInUser,
+    GetUser,
+    GetUserArticleLikes,
+    GetCurrentUserArticleLikes,
+
+    AddArticleLike,
+    RemoveArticleLike
+
+} from '@v1controllers/user.controller';
 
 
 // Services
@@ -39,11 +49,25 @@ const UserRouter = express.Router();
 
 // -- == [[ ROUTE ENDPOINTS TO ROUTERS ]] == -- \\
 
+UserRouter.route('/current/likes')
+    // GET /api/v1/user/current/likes
+    .get(ValidateUserIsLoggedIn, GetCurrentUserArticleLikes)
+    // POST /api/v1/user/current/likes
+    .post(ValidateUserIsLoggedIn, AddArticleLike)
+    // DELETE /api/v1/user/current/likes
+    .delete(ValidateUserIsLoggedIn, RemoveArticleLike);
+
 UserRouter.route('/current')
     // GET /api/v1/user/current
     .get(ValidateUserIsLoggedIn, GetLoggedInUser);
 
 
+
+UserRouter.route('/:id/likes')
+    // GET /api/v1/user/{UserID}/likes
+    .get(GetUserValidator, GetUserArticleLikes)
+    // POST /api/v1/user/{UserID}/likes
+    .post(ValidateUserIsLoggedIn, GetUserValidator);
 
 UserRouter.route('/:id')
     // GET /api/v1/user/{UserID}

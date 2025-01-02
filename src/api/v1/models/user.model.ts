@@ -93,7 +93,25 @@ const UserSchema = new mongoose.Schema({
         required: false,
         _id: false,
         id: false
-    }
+    },
+
+    likedBlogArticles: {
+
+        type: [mongoose.SchemaTypes.ObjectId],
+        default: [],
+        required: false,
+        _id: false,
+        id: false
+    },
+
+    likedComments: {
+
+        type: [mongoose.SchemaTypes.ObjectId],
+        default: [],
+        required: false,
+        _id: false,
+        id: false
+    },
 
 }, {
     timestamps: true
